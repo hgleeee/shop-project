@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>GaGaGaShop 판매자 전용</title>
+    <link rel="icon" type="image/x-icon" th:href="@{/assets/favicon.ico}" href="assets/favicon.ico" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+    <link th:href="@{/css/styles.css}" href="css/styles.css" rel="stylesheet" />
+    <style>
+         .container {
+            max-width: 560px;
+         }
+    </style>
+</head>
+<body>
+<text>판매자 페이지입니다.</text>
+<button th:onclick="|location.href='@{/seller/items/add}'|" type="button">
+    상품 등록
+</button>
+<button th:onclick="#" type="button">
+    상품 확인
+</button>
+</body>
+</html>

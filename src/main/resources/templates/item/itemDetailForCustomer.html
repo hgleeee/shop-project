@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head th:replace="fragments/header :: header" />
+
+<body>
+    <header>
+        <div th:replace="fragments/bodyHeader :: bodyHeader" />
+    </header>
+    <section class="py-5">
+        <div class="container px-4 px-lg-5 my-5">
+            <div class="row gx-4 gx-lg-5 align-items-center" th:object="${item}">
+                <!-- 600 * 700 사진이 필요합니다 -->
+                <div class="col-md-6"> <img class="card-img-top mb-5 mb-md-0" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." /></div>
+                <div class="col-md-6">
+                    <div class="small mb-1"></div>
+                    <h1 class="display-5 fw-bolder" th:text="*{itemName}">Shop item template</h1>
+                    <div class="fs-5 mb-5">
+                        <span class="text-decoration-line-through" id="price" name="price" th:value="*{price}" th:text="|*{price}원|"></span>
+                        <span>$40.00</span>
+                    </div>
+                    <p class="lead">정말 최고의 상품! 얼른 사보세요!</p>
+                    <div class="d-flex">
+                        <form role="form" action="@{/item/{itemId}(itemId=*{id})" method="post">
+
+                            <label for="orderQuantity">수량: </label>
+                            <input th:if="*{quantity} == '0'" type="number" min="1" disabled/>
+                            <input th:if="*{quantity} != '0'" type="number" min="1"
+                                   th:max="*{quantity}>'10'?10:*{quantity}" step="1" value="orderQuantity"
+                                   id="orderQuantity" onchange="printTotalPrice()"/>
+
+                            <p th:if="*{quantity} != '0'">
+                                <a>전체 가격: </a>
+                                <a id="totalPrice" name="totalPrice" >0원</a>
+                            </p>
+
+                            <hr/>
+
+                            <button th:if="*{quantity} != '0'" class="btn btn-outline-dark flex-shrink-0" type="submit">
+                                <i class="bi-cart-fill me-1"></i>
+                                Add to cart
+                            </button>
+                            <button th:if="*{quantity} == '0'" class="btn btn-outline-dark flex-shrink-0" type="button" disabled>
+                                <i class="bi-cart-fill me-1"></i>
+                                Add to cart
+                            </button>
+                        </form>
+                    </div>
+                    <div th:if="*{quantity == 0}">
+                        <p class='field-error'>재고가 없습니다.</p>
+                    </div>
+                    <div th:if="*{quantity > 0} and *{quantity <= 5}">
+                        <p class='field-error' th:text="|재고가 현재 *{quantity}개 남았습니다.|"> 메시지 </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="container">
+        <br><br>
+        <div>
+            <span style="font-size:2.0em; font-weight:bold"><strong>구매평 </strong></span>
+            <span>댓글 개수 : </span><span id="cnt"></span>
+            <div id="comment"></div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="card-body">
+            <form name="comment-form" th:action="@{/review/write}" method="post" autocomplete="off">
+                <div class="form-group">
+                    <input type="hidden" name="idx" th:value="${item.id}" />
+                    <textarea name="content" class="form-control" rows="3" cols="30" onkeydown="needLogin()"
+                              placeholder="로그인 후 구매평 작성이 가능합니다." sec:authorize="isAnonymous()"></textarea>
+                    <textarea name="content" class="form-control" rows="3" cols="30"
+                    placeholder="구매평을 작성해주세요" sec:authorize="isAuthenticated()"></textarea>
+                    <br/>
+                    <p align="right">
+                        <button type="submit" class="btn btn-success">등록</button>
+                    </p>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+    <footer>
+        <div th:replace="fragments/footer :: footer" />
+    </footer>
+    <!-- Bootstrap core JS-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Core theme JS-->
+    <script th:src="@{/js/script.js}" src="js/scripts.js"></script>
+    <script th:src="@{/js/reviewDetail.js}"></script>
+    <script th:src="@{/js/needLogin.js}"></script>
+    <script>
+        function printTotalPrice() {
+            document.getElementById('totalPrice').innerText =
+            document.getElementById('orderQuantity').value * [[${item.price}]] + "원";
+        }
+    </script>
+</body>
+</html>

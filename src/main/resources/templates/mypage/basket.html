@@ -1,0 +1,52 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header"/>
+<body>
+<div class="container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+    <div>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>상품 이름</th>
+                <th>상품 가격</th>
+                <th>상품 주문수량</th>
+                <th>상품 가격 * 수량</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="basket : ${basketItems}">
+                <td th:text="${basket.id}"></td>
+                <td th:text="${basket.item.itemName}"></td>
+                <td th:text="${basket.item.price}">
+                <td th:text="${basket.quantity}"></td>
+                <td th:text="${basket.price}"></td>
+                <td>
+                    <a href="#" th:href="'javascript:remove('+${basket.id}+')'"
+                       class="btn btn-danger">삭제</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <div>
+        <a>전체 가격 = </a>
+        <a th:text="${totalPrice}"> 전체 가격 </a>
+        </div>
+    </div>
+    <footer>
+        <div th:replace="fragments/footer :: footer"/>
+    </footer>
+</div> <!-- /container -->
+</body>
+<script>
+    function remove(id) {
+        var form = document.createElement("form");
+        form.setAttribute("method", "post");
+        form.setAttribute("action", "/mypage/basket/" + id + "/remove");
+        document.body.appendChild(form);
+        form.submit();
+    }
+</script>
+</html>
