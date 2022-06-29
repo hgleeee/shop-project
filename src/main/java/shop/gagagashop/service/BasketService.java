@@ -24,7 +24,11 @@ public class BasketService {
     }
 
     @Transactional
-    public void saveItem(String loginId, Long itemId, int quantity) {
+    public void addBasket(String loginId, Long itemId, int quantity) {
+        if (basketRepository.existItem(itemId, loginId)) {
+            basketRepository.addQuantity(itemId, loginId, quantity);
+            return;
+        }
         Basket basket = new Basket();
         basket.setItem(itemRepository.findById(itemId).get());
         basket.setMember(memberRepository.findByLoginId(loginId).get());

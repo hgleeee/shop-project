@@ -10,8 +10,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import shop.gagagashop.PagingConst;
 import shop.gagagashop.dto.item.ItemDTO;
+import shop.gagagashop.service.BasketService;
 import shop.gagagashop.service.ItemService;
 
+import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -19,6 +21,7 @@ import java.util.List;
 public class ItemController {
 
     private final ItemService itemService;
+    private final BasketService basketService;
 
 //    @GetMapping("/totalItems")
 //    @ResponseBody
@@ -27,7 +30,10 @@ public class ItemController {
 //    }
 
     @GetMapping("/item/total")
-    public String getTotalItem(@PageableDefault(page = 1) Pageable pageable, Model model) {
+    public String getTotalItem(Principal principal, @PageableDefault(page = 1) Pageable pageable, Model model) {
+        if (principal != null) {
+            model.addAttribute("basketCount", basketService.basketCountByLoginId(principal.getName()));
+        }
         Page<ItemDTO> items = itemService.findAllOrderByNameAsc(pageable);
         model.addAttribute("items", items);
         int startPage = (((int)(Math.ceil((double)pageable.getPageNumber()/PagingConst.BLOCK_LIMIT)))-1)*PagingConst.BLOCK_LIMIT+1;

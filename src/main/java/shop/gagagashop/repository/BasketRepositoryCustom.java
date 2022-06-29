@@ -11,4 +11,8 @@ public interface BasketRepositoryCustom {
     void removeById(Long basketItemId);
 
     int basketCountByLoginId(String loginId);
+
+    boolean existItem(Long itemId, String loginId);
+
+    void addQuantity(Long itemId, String loginId, int quantity);
 }

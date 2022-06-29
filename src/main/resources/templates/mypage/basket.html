@@ -4,42 +4,98 @@
 <body>
 <div class="container">
     <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+    <br/><br/>
     <div>
         <table class="table table-striped">
             <thead>
             <tr>
                 <th>#</th>
-                <th>상품 이름</th>
-                <th>상품 가격</th>
-                <th>상품 주문수량</th>
-                <th>상품 가격 * 수량</th>
+                <th>상품 정보</th>
+                <th>판매가</th>
+                <th>수량</th>
+                <th>합계</th>
                 <th></th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="basket : ${basketItems}">
-                <td th:text="${basket.id}"></td>
-                <td th:text="${basket.item.itemName}"></td>
-                <td th:text="${basket.item.price}">
-                <td th:text="${basket.quantity}"></td>
-                <td th:text="${basket.price}"></td>
+                <td th:text="${basket.item.id}">
+                    <input hidden name="itemId" class="itemId" th:value="${basket.item.id}">
+                </td>
+                <td>
+                    <a th:text="${basket.item.itemName}"></a>
+                    <input hidden name="itemName" class="itemName" th:value="${basket.item.itemName}">
+                </td>
+                <td>
+                    <a th:text="${basket.item.price}"></a>
+                    <input hidden name="price" class="itemPrice" th:value="${basket.item.price}">
+                </td>
+                <td>
+                    <input type="text" name="cnt" class="itemCnt" th:value="${basket.quantity}" style="text-align:center;" readonly>
+                    <button type="button" onclick="basketCnt('p', this)">+</button>
+                    <button type="button" onclick="basketCnt('m', this)">-</button>
+                </td>
+                <td>
+                    <input name="eachPrice" th:value="${basket.price * basket.quantity}" disabled>
+                    <a>원</a>
+                </td>
                 <td>
                     <a href="#" th:href="'javascript:remove('+${basket.id}+')'"
-                       class="btn btn-danger">삭제</a>
+                       class="btn btn-danger btn-sm">삭제</a>
                 </td>
             </tr>
             </tbody>
         </table>
-        <div>
-        <a>전체 가격 = </a>
-        <a th:text="${totalPrice}"> 전체 가격 </a>
+        <hr/>
+        <div style="text-align:right; margin:10px">
+            <b>전체 가격 = </b>
+            <input hidden id="totalPriceVal" th:value="${totalPrice}">
+            <b id="totalPrice" th:text="|${totalPrice}원|"></b>
+        </div>
+        <hr/>
+        <div class="row">
+            <div class="col-sm-8"></div>
+            <div class="col-sm-4">
+                <div class="d-grid">
+                <button type="button" class="btn btn-dark btn-block btn-lg"
+                        onclick="javascript:submit()" >주문하기</button>
+                </div>
+            </div>
         </div>
     </div>
+    <br/>
     <footer>
         <div th:replace="fragments/footer :: footer"/>
     </footer>
 </div> <!-- /container -->
+<script th:src="@{/js/basketCnt.js}"></script>
 </body>
+<script>
+    function submit() {
+        var form = document.createElement("form");
+        form.setAttribute("method", "post");
+        form.setAttribute("action", "/mypage/basket");
+        const nameGroup = document.getElementsByClassName('itemName');
+        const priceGroup = document.getElementsByClassName('itemPrice');
+        const cntGroup = document.getElementsByClassName('itemCnt');
+
+        let arr = new Array();
+        for (var i = 0; i < nameGroup.length; ++i) {
+            arr.push(nameGroup[i].value);
+            arr.push(priceGroup[i].value);
+            arr.push(cntGroup[i].value);
+        }
+
+        const hiddenField = document.createElement("input");
+        hiddenField.setAttribute("type", "hidden");
+        hiddenField.setAttribute("name", "basket");
+        hiddenField.setAttribute("value", arr);
+        form.appendChild(hiddenField);
+
+        document.body.appendChild(form);
+        form.submit();
+    }
+</script>
 <script>
     function remove(id) {
         var form = document.createElement("form");
