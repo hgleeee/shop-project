@@ -8,11 +8,13 @@ import shop.gagagashop.domain.MemberGrade;
 import shop.gagagashop.dto.item.ClothesDTO;
 import shop.gagagashop.dto.item.ItemDTO;
 import shop.gagagashop.dto.RegisterForm;
+import shop.gagagashop.dto.item.ItemForm;
 import shop.gagagashop.repository.MemberRepository;
 import shop.gagagashop.service.MemberService;
 import shop.gagagashop.service.ItemService;
 
 import javax.annotation.PostConstruct;
+import java.io.IOException;
 
 @Component
 @RequiredArgsConstructor
@@ -23,7 +25,7 @@ public class TestDataInit {
     private final ItemService itemService;
 
     @PostConstruct
-    public void init() {
+    public void init() throws IOException {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         RegisterForm member1 = RegisterForm.builder()
                 .name("김철수")
@@ -49,23 +51,24 @@ public class TestDataInit {
                 .frontSixSSR("456456")
                 .endSevenSSR("4564564")
                 .memberGrade(MemberGrade.ADMIN)
+                .bonusPoint(30000)
                 .build()
         );
 
         for (int i = 0; i < 200; ++i) {
-            itemService.saveItem(ItemDTO.builder()
+            itemService.saveItem(ItemForm.builder()
                     .itemName("clothes" + i)
                     .price(i * 1000)
                     .quantity(i)
                     .itemKind("Clothes")
                     .build());
-            itemService.saveItem(ItemDTO.builder()
+            itemService.saveItem(ItemForm.builder()
                     .itemName("bag" + i)
                     .price(i * 1000)
                     .quantity(i)
                     .itemKind("Bag")
                     .build());
-            itemService.saveItem(ItemDTO.builder()
+            itemService.saveItem(ItemForm.builder()
                     .itemName("water" + i)
                     .price(i * 1000)
                     .quantity(i)

@@ -19,7 +19,8 @@
             </thead>
             <tbody>
             <tr th:each="basket : ${basketItems}">
-                <td th:text="${basket.item.id}">
+                <td>
+                    <a th:text="${basket.item.id}"></a>
                     <input hidden name="itemId" class="itemId" th:value="${basket.item.id}">
                 </td>
                 <td>
@@ -73,14 +74,18 @@
 <script>
     function submit() {
         var form = document.createElement("form");
-        form.setAttribute("method", "post");
-        form.setAttribute("action", "/mypage/basket");
+        form.setAttribute("method", "get");
+        form.setAttribute("action", "/mypage/order");
+        const idGroup = document.getElementsByClassName('itemId');
         const nameGroup = document.getElementsByClassName('itemName');
         const priceGroup = document.getElementsByClassName('itemPrice');
         const cntGroup = document.getElementsByClassName('itemCnt');
 
         let arr = new Array();
+        console.log(idGroup.length);
+        console.log(nameGroup.length);
         for (var i = 0; i < nameGroup.length; ++i) {
+            arr.push(idGroup[i].value);
             arr.push(nameGroup[i].value);
             arr.push(priceGroup[i].value);
             arr.push(cntGroup[i].value);

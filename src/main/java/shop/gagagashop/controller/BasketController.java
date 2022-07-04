@@ -8,11 +8,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import shop.gagagashop.domain.Address;
 import shop.gagagashop.domain.Basket;
 import shop.gagagashop.dto.BasketToOrderForm;
 import shop.gagagashop.service.BasketService;
 import shop.gagagashop.service.MemberService;
 
+import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,10 +40,11 @@ public class BasketController {
     }
 
     @PostMapping("/basket/add")
-    public String addBasket(Principal principal, @RequestParam("itemId") Long itemId,
+    public String addBasket(HttpServletRequest request, Principal principal, @RequestParam("itemId") Long itemId,
                             @RequestParam("quantity") int quantity) {
+        String referer = request.getHeader("referer");
         basketService.addBasket(principal.getName(), itemId, quantity);
-        return "redirect:/";
+        return "redirect:"+referer;
     }
 
     @PostMapping("/mypage/basket/{basketId}/remove")
@@ -50,21 +53,15 @@ public class BasketController {
         return "redirect:/mypage/basket";
     }
 
-    @PostMapping("/mypage/basket")
-    public String PostBasketItems(@RequestParam("basket") List<String> list, RedirectAttributes rttr) {
-        List<BasketToOrderForm> orderFormList = new ArrayList<>();
-        for (int i = 0; i < list.size()/3; ++i) {
-            orderFormList.add(new BasketToOrderForm(list.get(i*3),
-                    Integer.parseInt(list.get(i*3+1)), Integer.parseInt(list.get(i*3+2))));
-        }
-        rttr.addAttribute("orderFormList", orderFormList);
-        return "redirect:/mypage/order";
-    }
+//    @PostMapping("/mypage/basket")
+//    public String PostBasketItems(@RequestParam("basket") List<String> list, RedirectAttributes rttr) {
+//        List<BasketToOrderForm> orderFormList = new ArrayList<>();
+//        for (int i = 0; i < list.size()/3; ++i) {
+//            orderFormList.add(new BasketToOrderForm(list.get(i*3),
+//                    Integer.parseInt(list.get(i*3+1)), Integer.parseInt(list.get(i*3+2))));
+//        }
+//        rttr.addFlashAttribute("orderFormList", orderFormList);
+//        return "redirect:/mypage/order";
+//    }
 
-    @GetMapping("/mypage/order")
-    public String getOrderPage(Principal principal, Model model,
-                               @RequestParam(name = "orderFormList") List<BasketToOrderForm> orderFormList) {
-        model.addAttribute("list", orderFormList);
-        return "mypage/orderForm";
-    }
 }

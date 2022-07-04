@@ -1,25 +1,24 @@
 package shop.gagagashop.dto.item;
 
 import lombok.Builder;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.springframework.web.multipart.MultipartFile;
 import shop.gagagashop.domain.UploadFile;
-import shop.gagagashop.domain.item.Bag;
 
-@Getter @Setter
+@Data
 @NoArgsConstructor
-public class ItemDTO {
+public class ItemForm {
+
     private Long id;
     private String itemKind;
     private String itemName;
     private int price;
     private int quantity;
-    private UploadFile imageFile;
+    private MultipartFile imageFile;
 
     @Builder
-    public ItemDTO(Long id, String itemKind, String itemName, int price, int quantity, UploadFile imageFile) {
+    public ItemForm(Long id, String itemKind, String itemName, int price, int quantity, MultipartFile imageFile) {
         this.id = id;
         this.itemKind = itemKind;
         this.itemName = itemName;

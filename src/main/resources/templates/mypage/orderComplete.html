@@ -1,0 +1,23 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header" />
+<body>
+
+<div class="container">
+
+    <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+    <br/><br/>
+    <div class="container">
+        <br/><br/><br/><br/><br/><br/><br/><h1><b>결제가 완료되었습니다.</b></h1>
+        <br/><br/>
+        <div>
+            <button class="btn btn-primary btn-large" th:onclick="|location.href='@{/orders}'|">내 주문내역 보러가기</button>
+            <button class="btn btn-primary btn-large" th:onclick="|location.href='@{/}'|">홈으로</button>
+        </div>
+        <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+    </div>
+
+</div>
+<div th:replace="fragments/footer :: footer" />
+</body>
+</html>

@@ -2,6 +2,7 @@ package shop.gagagashop.repository;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.stereotype.Repository;
+import shop.gagagashop.domain.Address;
 import shop.gagagashop.domain.Member;
 import shop.gagagashop.domain.MemberGrade;
 import shop.gagagashop.domain.QMember;
@@ -84,5 +85,23 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
                 .set(member.memberGrade, memberGrade)
                 .where(member.id.eq(id))
                 .execute();
+    }
+
+    @Override
+    public Address findAddressByLoginId(String loginId) {
+        return queryFactory
+                .select(member.address)
+                .from(member)
+                .where(member.loginId.eq(loginId))
+                .fetchOne();
+    }
+
+    @Override
+    public Integer findBonusPointByLoginId(String loginId) {
+        return queryFactory
+                .select(member.bonusPoint)
+                .from(member)
+                .where(member.loginId.eq(loginId))
+                .fetchOne();
     }
 }

@@ -7,10 +7,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import shop.gagagashop.dto.IdNameGradeOfMemberDTO;
 import shop.gagagashop.dto.item.ItemDTO;
+import shop.gagagashop.dto.item.ItemForm;
 import shop.gagagashop.service.ItemService;
 import shop.gagagashop.service.MemberService;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 
 @Slf4j
@@ -49,7 +51,7 @@ public class AdminController {
     }
 
     @PostMapping("/items/add")
-    public String addItem(@Valid @ModelAttribute(name = "itemForm") ItemDTO itemForm) {
+    public String addItem(@Valid @ModelAttribute(name = "itemForm") ItemForm itemForm) throws IOException {
         itemService.saveItem(itemForm);
         return "redirect:/admin/items";
     }

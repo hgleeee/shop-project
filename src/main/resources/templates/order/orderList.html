@@ -26,8 +26,7 @@
         <table class="table table-striped">
             <thead>
             <tr>
-                <th>#</th>
-                <th>회원명</th>
+                <th>주문번호</th>
                 <th>대표상품 이름</th>
                 <th>대표상품 주문가격</th> <th>대표상품 주문수량</th>
                 <th>상태</th>
@@ -38,7 +37,6 @@
             <tbody>
             <tr th:each="item : ${orders}">
                 <td th:text="${item.id}"></td>
-                <td th:text="${item.member.name}"></td>
                 <td th:text="${item.orderItems[0].item.itemName}"></td>
                 <td th:text="${item.orderItems[0].orderPrice}"></td>
                 <td th:text="${item.orderItems[0].count}"></td>
@@ -47,7 +45,7 @@
                 <td>
                     <a th:if="${item.status.name() == 'ORDER'}" href="#"
                        th:href="'javascript:cancel('+${item.id}+')'"
-                       class="btn btn-danger">CANCEL</a>
+                       class="btn btn-danger btn-sm">CANCEL</a>
                 </td>
             </tr>
             </tbody>

@@ -17,3 +17,5 @@ spring:
 logging.level:
   org.hibernate.SQL: debug
   org.hibernate.type: debug
+
+file.dir: C:/Users/Administrator/study/file/

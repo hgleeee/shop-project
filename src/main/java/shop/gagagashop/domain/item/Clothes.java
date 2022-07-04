@@ -3,6 +3,8 @@ package shop.gagagashop.domain.item;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
+import shop.gagagashop.domain.UploadFile;
 
 import javax.persistence.*;
 
@@ -17,8 +19,8 @@ public class Clothes extends Item {
     private ClothesSort clothesSort;
 
     @Builder
-    public Clothes(String itemName, int price, int stockQuantity, ClothesSort clothesSort) {
-        super(itemName, price, stockQuantity);
+    public Clothes(String itemName, int price, int stockQuantity, UploadFile imageFile, ClothesSort clothesSort) {
+        super(itemName, price, stockQuantity, imageFile);
         this.clothesSort = clothesSort;
     }
 }

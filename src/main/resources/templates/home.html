@@ -23,7 +23,7 @@
                     <div class="d-flex">
                         <input class="form-control text-center me-3" id="inputQuantity" type="num" value="1" style="max-width: 3rem" />
                         <form th:method="post" th:action="@{/basket/add}">
-                            <input type="hidden" id="itemId" name="itemId" value="*{id}">
+                            <input type="hidden" id="itemId" name="itemId" th:value="${max.id}">
                             <input type="hidden" id="quantity" name="quantity" value="1">
                             <button class="btn btn-outline-dark flex-shrink-0" type="submit">
                                 <i class="bi-cart-fill me-1"></i>

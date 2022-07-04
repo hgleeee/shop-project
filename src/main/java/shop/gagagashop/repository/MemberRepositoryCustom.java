@@ -1,5 +1,6 @@
 package shop.gagagashop.repository;
 
+import shop.gagagashop.domain.Address;
 import shop.gagagashop.domain.Member;
 import shop.gagagashop.domain.MemberGrade;
 
@@ -14,4 +15,6 @@ public interface MemberRepositoryCustom {
     public List<Member> findIdNameGradeBySub(String sub);
     public MemberGrade findMemberGradeById(Long id);
     public void updateMemberGrade(Long id, MemberGrade memberGrade);
+    public Address findAddressByLoginId(String loginId);
+    public Integer findBonusPointByLoginId(String loginId);
 }

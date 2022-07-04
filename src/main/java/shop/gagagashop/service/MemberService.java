@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import shop.gagagashop.domain.Address;
 import shop.gagagashop.domain.Member;
 import shop.gagagashop.domain.MemberGrade;
 import shop.gagagashop.dto.IdName.MemberIdName;
@@ -108,6 +109,14 @@ public class MemberService implements UserDetailsService {
         return memberRepository.findById(id).map(m -> new IdNameGradeOfMemberDTO(
                 m.getId(), m.getLoginId(), m.getName(), m.getMemberGrade())).get();
 
+    }
+
+    public Address findAddressByLoginId(String loginId) {
+        return memberRepository.findAddressByLoginId(loginId);
+    }
+
+    public Integer findBonusPointByLoginId(String loginId) {
+        return memberRepository.findBonusPointByLoginId(loginId);
     }
 
     @Transactional

@@ -27,6 +27,7 @@ public class Member extends TimeBaseEntity {
     private String homePhoneNumber;
     private String cellphoneNumber;
     private int visitCount;
+    private int bonusPoint;
 
     @OneToOne
     @JoinColumn(name = "item_list_id")
@@ -50,7 +51,7 @@ public class Member extends TimeBaseEntity {
     @Builder
     public Member(Long id, String name, int age, String sex, String emailAddress, String frontSixSSR, String endSevenSSR,
                   String loginId, String password, String homePhoneNumber, String cellphoneNumber, int visitCount,
-                  EachSellerItemList eachSellerItemList, MemberGrade memberGrade, Address address) {
+                  EachSellerItemList eachSellerItemList, MemberGrade memberGrade, Address address, int bonusPoint) {
         this.id = id;
         this.name = name;
         this.age = age;
@@ -66,6 +67,7 @@ public class Member extends TimeBaseEntity {
         this.eachSellerItemList = eachSellerItemList;
         this.memberGrade = memberGrade;
         this.address = address;
+        this.bonusPoint = bonusPoint;
     }
 
     public void setMemberGrade(MemberGrade memberGrade) {
